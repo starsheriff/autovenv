@@ -51,7 +51,8 @@ autovenv() {
 
 # wrap builtin cd command
 cd() {
-    builtin cd $@
+    echo $@
+    builtin cd "$@"
     autovenv
 }
 
