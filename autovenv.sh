@@ -4,12 +4,15 @@ FN_AUTOVENV=.autovenv
 
 # recursively find a .autovenv file
 find-autovenv() {
-    local curdir=$(pwd)
+    local curdir
+    curdir=$(pwd)
+
     local path=
     
-    while [ ! $path ] 
+    while [ ! "$path" ] 
     do
-        local parent="$(dirname "$curdir")"
+        local parent
+        parent="$(dirname "$curdir")"
         
         if [ -e "$curdir/$FN_AUTOVENV" ]
         then
@@ -34,10 +37,12 @@ find-autovenv() {
 
 # handle logic to activate/deactivate virtualenvs
 autovenv() {
-    local venv_dir="$(find-autovenv)"
+    local venv_dir
+    venv_dir="$(find-autovenv)"
     if [ "$venv_dir" ]
     then
-        local venv_name=$(head -n 1 "$venv_dir/$FN_AUTOVENV")
+        local venv_name
+        venv_name=$(head -n 1 "$venv_dir/$FN_AUTOVENV")
         #echo "activating $venv_name"
         source "$venv_dir/$venv_name/bin/activate"
     else 
@@ -51,7 +56,7 @@ autovenv() {
 
 # wrap builtin cd command
 cd() {
-    echo $@
+    echo "$@"
     builtin cd "$@" && autovenv
 }
 
